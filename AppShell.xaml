@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:home="clr-namespace:DigitalInteraction.Views.Home"
+       xmlns:auth="clr-namespace:DigitalInteraction.Views.Auth"
+       xmlns:appeals="clr-namespace:DigitalInteraction.Views.Appeals"
+       xmlns:applications="clr-namespace:DigitalInteraction.Views.Applications"
+       xmlns:notifications="clr-namespace:DigitalInteraction.Views.Notifications"
+       xmlns:profile="clr-namespace:DigitalInteraction.Views.Profile"
+       x:Class="DigitalInteraction.AppShell"
+       Shell.NavBarIsVisible="False">
+
+    <!-- Авторизация -->
+    <FlyoutItem FlyoutItemIsVisible="False" Route="auth">
+        <ShellContent Route="login"
+                      ContentTemplate="{DataTemplate auth:LoginPage}" />
+        <ShellContent Route="register"
+                      ContentTemplate="{DataTemplate auth:RegisterPage}" />
+    </FlyoutItem>
+
+    <!-- Основные разделы -->
+    <TabBar Route="main">
+        <Tab Title="Главная" Icon="tab_home.png">
+            <ShellContent Route="home"
+                          ContentTemplate="{DataTemplate home:HomePage}" />
+        </Tab>
+        <Tab Title="Обращения" Icon="tab_appeals.png">
+            <ShellContent Route="appeals"
+                          ContentTemplate="{DataTemplate appeals:AppealsListPage}" />
+        </Tab>
+        <Tab Title="Заявки" Icon="tab_applications.png">
+            <ShellContent Route="applications"
+                          ContentTemplate="{DataTemplate applications:ApplicationsListPage}" />
+        </Tab>
+        <Tab Title="Уведомления" Icon="tab_notifications.png">
+            <ShellContent Route="notifications"
+                          ContentTemplate="{DataTemplate notifications:NotificationsPage}" />
+        </Tab>
+        <Tab Title="Профиль" Icon="tab_profile.png">
+            <ShellContent Route="profile"
+                          ContentTemplate="{DataTemplate profile:ProfilePage}" />
+        </Tab>
+    </TabBar>
+
+</Shell>

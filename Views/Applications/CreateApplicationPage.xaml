@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DigitalInteraction.Views.Applications.CreateApplicationPage"
+             Title="Новая заявка"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="12">
+
+            <Label Text="Тема заявки *"
+                   FontSize="13" TextColor="#424242" />
+            <Entry x:Name="TitleEntry"
+                   Placeholder="Кратко опишите тему"
+                   ReturnType="Next" />
+
+            <Label Text="Текст заявки *"
+                   FontSize="13" TextColor="#424242" />
+            <Editor x:Name="TextEditor"
+                    Placeholder="Подробно опишите вашу заявку..."
+                    HeightRequest="200"
+                    AutoSize="Disabled"
+                    BackgroundColor="White" />
+
+            <Label x:Name="ErrorLabel"
+                   TextColor="Red" FontSize="13"
+                   IsVisible="False" />
+
+            <Button x:Name="SubmitButton"
+                    Text="Отправить заявку"
+                    BackgroundColor="#1A237E"
+                    TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="50"
+                    Clicked="OnSubmitClicked"
+                    Margin="0,8,0,0" />
+
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsVisible="False"
+                               IsRunning="False"
+                               Color="#1A237E"
+                               HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

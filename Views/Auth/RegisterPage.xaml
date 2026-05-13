@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DigitalInteraction.Views.Auth.RegisterPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30"
+                             Spacing="16"
+                             VerticalOptions="Center">
+
+            <!-- Заголовок -->
+            <Label Text="Регистрация"
+                   FontSize="26"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   TextColor="#1A237E"
+                   Margin="0,40,0,0" />
+
+            <Label Text="Создайте аккаунт гражданина"
+                   FontSize="13"
+                   HorizontalTextAlignment="Center"
+                   TextColor="#757575"
+                   Margin="0,0,0,20" />
+
+            <!-- Фамилия -->
+            <Label Text="Фамилия *" FontSize="13" TextColor="#424242" />
+            <Entry x:Name="LastNameEntry"
+                   Placeholder="Введите фамилию"
+                   ReturnType="Next" />
+
+            <!-- Имя -->
+            <Label Text="Имя *" FontSize="13" TextColor="#424242" />
+            <Entry x:Name="FirstNameEntry"
+                   Placeholder="Введите имя"
+                   ReturnType="Next" />
+
+            <!-- Отчество -->
+            <Label Text="Отчество" FontSize="13" TextColor="#424242" />
+            <Entry x:Name="MiddleNameEntry"
+                   Placeholder="Введите отчество (необязательно)"
+                   ReturnType="Next" />
+
+            <!-- Логин -->
+            <Label Text="Логин *" FontSize="13" TextColor="#424242" />
+            <Entry x:Name="LoginEntry"
+                   Placeholder="Придумайте логин"
+                   ReturnType="Next" />
+
+            <!-- Пароль -->
+            <Label Text="Пароль *" FontSize="13" TextColor="#424242" />
+            <Entry x:Name="PasswordEntry"
+                   Placeholder="Придумайте пароль"
+                   IsPassword="True"
+                   ReturnType="Next" />
+
+            <!-- Подтверждение пароля -->
+            <Label Text="Подтвердите пароль *" FontSize="13" TextColor="#424242" />
+            <Entry x:Name="ConfirmPasswordEntry"
+                   Placeholder="Повторите пароль"
+                   IsPassword="True"
+                   ReturnType="Done" />
+
+            <!-- Ошибка -->
+            <Label x:Name="ErrorLabel"
+                   TextColor="Red"
+                   FontSize="13"
+                   IsVisible="False"
+                   HorizontalTextAlignment="Center" />
+
+            <!-- Кнопка регистрации -->
+            <Button x:Name="RegisterButton"
+                    Text="Зарегистрироваться"
+                    BackgroundColor="#1A237E"
+                    TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="50"
+                    Clicked="OnRegisterClicked"
+                    Margin="0,10,0,0" />
+
+            <!-- Индикатор загрузки -->
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsVisible="False"
+                               IsRunning="False"
+                               Color="#1A237E"
+                               HorizontalOptions="Center" />
+
+            <!-- Назад к входу -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <Label Text="Уже есть аккаунт?"
+                       FontSize="13"
+                       TextColor="#757575"
+                       VerticalOptions="Center" />
+                <Label Text="Войти"
+                       FontSize="13"
+                       TextColor="#1A237E"
+                       TextDecorations="Underline"
+                       VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLoginTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+            <BoxView HeightRequest="30" Color="Transparent" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

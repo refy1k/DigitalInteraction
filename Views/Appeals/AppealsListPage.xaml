@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DigitalInteraction.Views.Appeals.AppealsListPage"
+             Title="Мои обращения"
+             BackgroundColor="#F5F5F5">
+
+    <Grid RowDefinitions="*, Auto" Padding="16">
+
+        <!-- Индикатор загрузки -->
+        <ActivityIndicator x:Name="LoadingIndicator"
+                           IsVisible="False"
+                           IsRunning="False"
+                           Color="#1A237E"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           ZIndex="1" />
+
+        <!-- Пусто -->
+        <VerticalStackLayout x:Name="EmptyView"
+                             IsVisible="False"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             Spacing="8">
+            <Label Text="📭"
+                   FontSize="48"
+                   HorizontalTextAlignment="Center" />
+            <Label Text="Обращений пока нет"
+                   FontSize="16"
+                   TextColor="#757575"
+                   HorizontalTextAlignment="Center" />
+            <Label Text="Нажмите кнопку ниже чтобы создать первое"
+                   FontSize="13"
+                   TextColor="#9E9E9E"
+                   HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+
+        <!-- Список -->
+        <CollectionView x:Name="AppealsCollection"
+                        IsVisible="False">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,6"
+               Padding="16"
+               CornerRadius="10"
+               HasShadow="True"
+               BackgroundColor="White">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnAppealTapped"
+                                      CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+                        <Grid ColumnDefinitions="*, Auto"
+                  RowDefinitions="Auto, Auto, Auto"
+                  RowSpacing="4">
+
+                            <Label Grid.Row="0" Grid.Column="0"
+                       Text="{Binding AppealNumber}"
+                       FontSize="13"
+                       TextColor="#757575" />
+
+                            <Frame Grid.Row="0" Grid.Column="1"
+                       BackgroundColor="{Binding StatusColor}"
+                       Padding="8,3"
+                       CornerRadius="12"
+                       HasShadow="False">
+                                <Label Text="{Binding StatusText}"
+                           FontSize="11"
+                           TextColor="White" />
+                            </Frame>
+
+                            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                       Text="{Binding Title}"
+                       FontSize="15"
+                       FontAttributes="Bold"
+                       TextColor="#212121"
+                       LineBreakMode="TailTruncation" />
+
+                            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                       Text="{Binding CreationDate, StringFormat='{0:dd.MM.yyyy}'}"
+                       FontSize="12"
+                       TextColor="#9E9E9E" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Кнопка создать -->
+        <Button Grid.Row="1"
+                Text="+ Новое обращение"
+                BackgroundColor="#1A237E"
+                TextColor="White"
+                CornerRadius="8"
+                HeightRequest="50"
+                Margin="0,8,0,0"
+                Clicked="OnCreateClicked" />
+
+    </Grid>
+
+</ContentPage>

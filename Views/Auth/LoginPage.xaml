@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DigitalInteraction.Views.Auth.LoginPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30"
+                             Spacing="16"
+                             VerticalOptions="Center">
+
+            <!-- Логотип / заголовок -->
+            <Label Text="Цифровое взаимодействие"
+                   FontSize="26"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   TextColor="#1A237E"
+                   Margin="0,40,0,0" />
+
+            <Label Text="Администрация Березовского МО"
+                   FontSize="13"
+                   HorizontalTextAlignment="Center"
+                   TextColor="#757575"
+                   Margin="0,0,0,30" />
+
+            <!-- Поля входа -->
+            <Label Text="Логин" FontSize="13" TextColor="#424242" />
+            <Entry x:Name="LoginEntry"
+                   Placeholder="Введите логин"
+                   ReturnType="Next" />
+
+            <Label Text="Пароль" FontSize="13" TextColor="#424242" />
+            <Entry x:Name="PasswordEntry"
+                   Placeholder="Введите пароль"
+                   IsPassword="True"
+                   ReturnType="Done" />
+
+            <!-- Ошибка -->
+            <Label x:Name="ErrorLabel"
+                   TextColor="Red"
+                   FontSize="13"
+                   IsVisible="False"
+                   HorizontalTextAlignment="Center" />
+
+            <!-- Кнопка входа -->
+            <Button x:Name="LoginButton"
+                    Text="Войти"
+                    BackgroundColor="#1A237E"
+                    TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="50"
+                    Clicked="OnLoginClicked"
+                    Margin="0,10,0,0" />
+
+            <!-- Индикатор загрузки -->
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsVisible="False"
+                               IsRunning="False"
+                               Color="#1A237E"
+                               HorizontalOptions="Center" />
+
+            <!-- Переход к регистрации -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <Label Text="Нет аккаунта?"
+                       FontSize="13"
+                       TextColor="#757575"
+                       VerticalOptions="Center" />
+                <Label Text="Зарегистрироваться"
+                       FontSize="13"
+                       TextColor="#1A237E"
+                       TextDecorations="Underline"
+                       VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRegisterTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

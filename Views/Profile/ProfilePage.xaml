@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DigitalInteraction.Views.Profile.ProfilePage"
+             Title="Профиль"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="12">
+
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsVisible="True"
+                               IsRunning="True"
+                               Color="#1A237E"
+                               HorizontalOptions="Center"
+                               Margin="0,40,0,0" />
+
+            <VerticalStackLayout x:Name="ContentLayout"
+                                 IsVisible="False"
+                                 Spacing="12">
+
+                <!-- Шапка профиля -->
+                <Frame BackgroundColor="#1A237E"
+                       CornerRadius="12" Padding="20">
+                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                        <Label Text="👤"
+                               FontSize="48"
+                               HorizontalTextAlignment="Center" />
+                        <Label x:Name="FullNameLabel"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalTextAlignment="Center" />
+                        <Label x:Name="LoginLabel"
+                               FontSize="13"
+                               TextColor="#B0BEC5"
+                               HorizontalTextAlignment="Center" />
+                        <Label x:Name="MemberSinceLabel"
+                               FontSize="12"
+                               TextColor="#B0BEC5"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Разделы профиля -->
+                <Frame BackgroundColor="White" CornerRadius="10" Padding="0">
+                    <VerticalStackLayout>
+
+                        <!-- Документы -->
+                        <Grid Padding="16,14" ColumnDefinitions="Auto, *, Auto">
+                            <Label Grid.Column="0" Text="📄"
+                                   FontSize="20" VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1"
+                                                 Margin="12,0,0,0">
+                                <Label Text="Мои документы"
+                                       FontSize="15" TextColor="#212121" />
+                                <Label Text="Паспорт, СНИЛС, ИНН, ОМС"
+                                       FontSize="12" TextColor="#9E9E9E" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="2" Text="›"
+                                   FontSize="22" TextColor="#9E9E9E"
+                                   VerticalOptions="Center" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnDocumentsTapped" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="#F0F0F0" Margin="16,0" />
+
+                        <!-- Контакты -->
+                        <Grid Padding="16,14" ColumnDefinitions="Auto, *, Auto">
+                            <Label Grid.Column="0" Text="📞"
+                                   FontSize="20" VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1"
+                                                 Margin="12,0,0,0">
+                                <Label Text="Контактная информация"
+                                       FontSize="15" TextColor="#212121" />
+                                <Label Text="Телефон, email, адрес"
+                                       FontSize="12" TextColor="#9E9E9E" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="2" Text="›"
+                                   FontSize="22" TextColor="#9E9E9E"
+                                   VerticalOptions="Center" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnContactInfoTapped" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Статистика -->
+                <Frame BackgroundColor="White" CornerRadius="10" Padding="16">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Моя активность"
+                               FontSize="14" FontAttributes="Bold"
+                               TextColor="#424242" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Frame Grid.Column="0"
+                                   BackgroundColor="#E8EAF6"
+                                   CornerRadius="8" Padding="12,8">
+                                <VerticalStackLayout HorizontalOptions="Center">
+                                    <Label x:Name="AppealsCountLabel"
+                                           Text="0"
+                                           FontSize="22" FontAttributes="Bold"
+                                           TextColor="#1A237E"
+                                           HorizontalTextAlignment="Center" />
+                                    <Label Text="Обращений"
+                                           FontSize="12" TextColor="#757575"
+                                           HorizontalTextAlignment="Center" />
+                                </VerticalStackLayout>
+                            </Frame>
+                            <Frame Grid.Column="1"
+                                   BackgroundColor="#E8EAF6"
+                                   CornerRadius="8" Padding="12,8">
+                                <VerticalStackLayout HorizontalOptions="Center">
+                                    <Label x:Name="ApplicationsCountLabel"
+                                           Text="0"
+                                           FontSize="22" FontAttributes="Bold"
+                                           TextColor="#1A237E"
+                                           HorizontalTextAlignment="Center" />
+                                    <Label Text="Заявок"
+                                           FontSize="12" TextColor="#757575"
+                                           HorizontalTextAlignment="Center" />
+                                </VerticalStackLayout>
+                            </Frame>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Кнопка выйти -->
+                <Button Text="Выйти из аккаунта"
+                        BackgroundColor="#FFEBEE"
+                        TextColor="#B71C1C"
+                        CornerRadius="8"
+                        HeightRequest="50"
+                        Clicked="OnLogoutClicked" />
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
