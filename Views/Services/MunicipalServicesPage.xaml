@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
+             x:Class="DigitalInteraction.Views.Services.MunicipalServiceDetailPage"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="12">
+
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsVisible="True"
+                               IsRunning="True"
+                               Color="#1A237E"
+                               HorizontalOptions="Center"
+                               Margin="0,40,0,0" />
+
+            <!-- Список услуг категории -->
+            <VerticalStackLayout x:Name="ServicesLayout"
+                                 IsVisible="False"
+                                 Spacing="10" />
+
+            <!-- Форма подачи заявки -->
+            <VerticalStackLayout x:Name="RequestFormLayout"
+                                 IsVisible="False"
+                                 Spacing="12">
+
+                <Frame BackgroundColor="White" CornerRadius="12" Padding="16">
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label x:Name="ServiceNameLabel"
+                               FontSize="18" FontAttributes="Bold"
+                               TextColor="#212121" />
+
+                        <Label x:Name="ServiceDescLabel"
+                               FontSize="14" TextColor="#424242"
+                               LineBreakMode="WordWrap" />
+
+                        <BoxView HeightRequest="1" Color="#E0E0E0" />
+
+                        <Label x:Name="ServiceDurationLabel"
+                               FontSize="13" TextColor="#757575" />
+
+                        <Label x:Name="ServiceDocsLabel"
+                               FontSize="13" TextColor="#757575"
+                               LineBreakMode="WordWrap" />
+
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Label Text="Комментарий к заявке"
+                       FontSize="13" TextColor="#424242" />
+                <Editor x:Name="CommentEditor"
+                        Placeholder="Укажите дополнительную информацию (необязательно)..."
+                        HeightRequest="120"
+                        AutoSize="Disabled"
+                        BackgroundColor="White" />
+
+                <Label x:Name="ErrorLabel"
+                       TextColor="Red" FontSize="13"
+                       IsVisible="False" />
+
+                <Button x:Name="SubmitButton"
+                        Text="Подать заявку"
+                        BackgroundColor="#1A237E"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="50"
+                        Clicked="OnSubmitClicked" />
+
+                <ActivityIndicator x:Name="SavingIndicator"
+                                   IsVisible="False"
+                                   IsRunning="False"
+                                   Color="#1A237E"
+                                   HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

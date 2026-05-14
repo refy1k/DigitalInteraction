@@ -10,4 +10,9 @@ public static class NumberGenerator
 
     public static string GenerateApplicationNumber() =>
         $"ЗАЯ-{DateTime.Now.Year}-{++_applicationCounter:D5}";
+
+    private static int _serviceRequestCounter;
+
+    public static string GenerateServiceRequestNumber() =>
+        $"УСЛ-{DateTime.Now.Year}-{++_serviceRequestCounter:D5}";
 }

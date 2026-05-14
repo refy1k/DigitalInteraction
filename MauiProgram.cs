@@ -5,6 +5,7 @@ using DigitalInteraction.Views.Applications;
 using DigitalInteraction.Views.Profile;
 using DigitalInteraction.Views.Notifications;
 using DigitalInteraction.Views.Home;
+using DigitalInteraction.Views.Services;
 using Supabase;
 
 namespace DigitalInteraction;
@@ -24,18 +25,17 @@ public static class MauiProgram
                 fonts.AddFont("Roboto-Bold.ttf", "RobotoBold");
             });
 
-        // Supabase клиент — инициализируем синхронно через .Result
+        // Supabase клиент
         var supabaseClient = SupabaseService.GetClientAsync().Result;
         builder.Services.AddSingleton<Client>(supabaseClient);
 
         // Сервисы (singleton)
-        builder.Services.AddTransient<CreateAppealPage>();
-        builder.Services.AddTransient<AppealDetailPage>();
         builder.Services.AddSingleton<AuthService>();
         builder.Services.AddSingleton<AppealService>();
         builder.Services.AddSingleton<ApplicationService>();
         builder.Services.AddSingleton<ProfileService>();
         builder.Services.AddSingleton<NotificationService>();
+        builder.Services.AddSingleton<MunicipalServiceService>();
 
         // Pages (transient)
         builder.Services.AddTransient<HomePage>();
@@ -49,8 +49,12 @@ public static class MauiProgram
         builder.Services.AddTransient<CreateApplicationPage>();
         builder.Services.AddTransient<ProfilePage>();
         builder.Services.AddTransient<DocumentsPage>();
+        builder.Services.AddTransient<DocumentsEditPage>();
         builder.Services.AddTransient<ContactInfoPage>();
         builder.Services.AddTransient<NotificationsPage>();
+        builder.Services.AddTransient<MunicipalServicesPage>();
+        builder.Services.AddTransient<MunicipalServiceDetailPage>();
+        builder.Services.AddTransient<ServiceRequestsPage>();
 
         return builder.Build();
     }

@@ -13,4 +13,6 @@ public static class SessionManager
         CurrentCitizenId = null;
         CurrentCitizen = null;
     }
+
+    public static string? CurrentAvatarPath { get; set; }
 }

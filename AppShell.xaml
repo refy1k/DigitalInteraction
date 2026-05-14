@@ -7,6 +7,7 @@
        xmlns:applications="clr-namespace:DigitalInteraction.Views.Applications"
        xmlns:notifications="clr-namespace:DigitalInteraction.Views.Notifications"
        xmlns:profile="clr-namespace:DigitalInteraction.Views.Profile"
+       xmlns:services="clr-namespace:DigitalInteraction.Views.Services"
        x:Class="DigitalInteraction.AppShell"
        Shell.NavBarIsVisible="False">
 
@@ -20,23 +21,27 @@
 
     <!-- Основные разделы -->
     <TabBar Route="main">
-        <Tab Title="Главная" Icon="tab_home.png">
+        <Tab Title="🏠">
             <ShellContent Route="home"
                           ContentTemplate="{DataTemplate home:HomePage}" />
         </Tab>
-        <Tab Title="Обращения" Icon="tab_appeals.png">
+        <Tab Title="✉️">
             <ShellContent Route="appeals"
                           ContentTemplate="{DataTemplate appeals:AppealsListPage}" />
         </Tab>
-        <Tab Title="Заявки" Icon="tab_applications.png">
+        <Tab Title="📋">
             <ShellContent Route="applications"
                           ContentTemplate="{DataTemplate applications:ApplicationsListPage}" />
         </Tab>
-        <Tab Title="Уведомления" Icon="tab_notifications.png">
+        <Tab Title="🏛️">
+            <ShellContent Route="services"
+                          ContentTemplate="{DataTemplate services:ServiceRequestsPage}" />
+        </Tab>
+        <Tab Title="🔔">
             <ShellContent Route="notifications"
                           ContentTemplate="{DataTemplate notifications:NotificationsPage}" />
         </Tab>
-        <Tab Title="Профиль" Icon="tab_profile.png">
+        <Tab Title="👤">
             <ShellContent Route="profile"
                           ContentTemplate="{DataTemplate profile:ProfilePage}" />
         </Tab>

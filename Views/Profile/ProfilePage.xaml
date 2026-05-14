@@ -1,85 +1,442 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
              x:Class="DigitalInteraction.Views.Profile.ProfilePage"
              Title="Профиль"
-             BackgroundColor="#F5F5F5">
+             BackgroundColor="#F0F2F5">
 
     <ScrollView Padding="16">
-        <VerticalStackLayout Spacing="12">
+        <VerticalStackLayout Spacing="14">
 
             <ActivityIndicator x:Name="LoadingIndicator"
-                               IsVisible="True"
-                               IsRunning="True"
+                               IsVisible="True" IsRunning="True"
                                Color="#1A237E"
                                HorizontalOptions="Center"
                                Margin="0,40,0,0" />
 
             <VerticalStackLayout x:Name="ContentLayout"
-                                 IsVisible="False"
-                                 Spacing="12">
+                                 IsVisible="False" Spacing="14">
 
-                <!-- Шапка профиля -->
-                <Frame BackgroundColor="#1A237E"
-                       CornerRadius="12" Padding="20">
-                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                        <Label Text="👤"
-                               FontSize="48"
-                               HorizontalTextAlignment="Center" />
+                <!-- Шапка -->
+                <Border BackgroundColor="#1A237E"
+                        StrokeThickness="0" Padding="24,20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+
+                        <Grid HorizontalOptions="Center"
+                              WidthRequest="96" HeightRequest="96">
+                            <Border x:Name="AvatarPlaceholder"
+                                    WidthRequest="96" HeightRequest="96"
+                                    BackgroundColor="#3949AB"
+                                    StrokeThickness="2"
+                                    Stroke="#5C6BC0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="48" />
+                                </Border.StrokeShape>
+                                <Label Text="👤" FontSize="46"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+                            <Border x:Name="AvatarFrame"
+                                    WidthRequest="96" HeightRequest="96"
+                                    StrokeThickness="2"
+                                    Stroke="#5C6BC0"
+                                    IsVisible="False">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="48" />
+                                </Border.StrokeShape>
+                                <Image x:Name="AvatarImage"
+                                       Aspect="AspectFill"
+                                       WidthRequest="96" HeightRequest="96" />
+                            </Border>
+                            <!-- Кнопка смены фото -->
+                            <Border WidthRequest="30" HeightRequest="30"
+                                    BackgroundColor="White"
+                                    StrokeThickness="0"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="End">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="15" />
+                                </Border.StrokeShape>
+                                <Label Text="📷" FontSize="14"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnChangeAvatarTapped" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Border>
+                        </Grid>
+
                         <Label x:Name="FullNameLabel"
-                               FontSize="18"
-                               FontAttributes="Bold"
+                               FontSize="20" FontAttributes="Bold"
                                TextColor="White"
                                HorizontalTextAlignment="Center" />
                         <Label x:Name="LoginLabel"
-                               FontSize="13"
-                               TextColor="#B0BEC5"
+                               FontSize="13" TextColor="#90CAF9"
                                HorizontalTextAlignment="Center" />
                         <Label x:Name="MemberSinceLabel"
-                               FontSize="12"
-                               TextColor="#B0BEC5"
+                               FontSize="11" TextColor="#7986CB"
                                HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
-                </Frame>
+                </Border>
 
-                <!-- Разделы профиля -->
-                <Frame BackgroundColor="White" CornerRadius="10" Padding="0">
+                <!-- Статистика -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                    <Border Grid.Column="0" BackgroundColor="White"
+                            StrokeThickness="0" Padding="10,12">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                            <Label x:Name="AppealsCountLabel" Text="0"
+                                   FontSize="22" FontAttributes="Bold"
+                                   TextColor="#1A237E"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Обращений" FontSize="11"
+                                   TextColor="#9E9E9E"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="White"
+                            StrokeThickness="0" Padding="10,12">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                            <Label x:Name="ApplicationsCountLabel" Text="0"
+                                   FontSize="22" FontAttributes="Bold"
+                                   TextColor="#1B5E20"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Заявок" FontSize="11"
+                                   TextColor="#9E9E9E"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="2" BackgroundColor="White"
+                            StrokeThickness="0" Padding="10,12">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                            <Label x:Name="ServicesCountLabel" Text="0"
+                                   FontSize="22" FontAttributes="Bold"
+                                   TextColor="#E65100"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Услуг" FontSize="11"
+                                   TextColor="#9E9E9E"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Личные данные — режим просмотра -->
+                <Border x:Name="ViewModeLayout"
+                        BackgroundColor="White"
+                        StrokeThickness="0" Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="14" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="0">
+
+                        <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,12">
+                            <Label Grid.Column="0"
+                                   Text="Личные данные"
+                                   FontSize="15" FontAttributes="Bold"
+                                   TextColor="#212121"
+                                   VerticalOptions="Center" />
+                            <Border Grid.Column="1"
+                                    BackgroundColor="#E8EAF6"
+                                    StrokeThickness="0"
+                                    Padding="12,6">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="8" />
+                                </Border.StrokeShape>
+                                <Label Text="✏️ Изменить"
+                                       FontSize="12"
+                                       TextColor="#1A237E">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnEditModeTapped" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Border>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="#F5F5F5" Margin="0,0,0,12" />
+
+                        <!-- Строки данных -->
+                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto"
+                              ColumnSpacing="12" RowSpacing="14">
+
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="Фамилия" FontSize="12"
+                                   TextColor="#9E9E9E" VerticalOptions="Center"
+                                   WidthRequest="100" />
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   x:Name="LastNameView"
+                                   FontSize="15" TextColor="#212121"
+                                   FontAttributes="Bold" />
+
+                            <Label Grid.Row="1" Grid.Column="0"
+                                   Text="Имя" FontSize="12"
+                                   TextColor="#9E9E9E" VerticalOptions="Center"
+                                   WidthRequest="100" />
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   x:Name="FirstNameView"
+                                   FontSize="15" TextColor="#212121"
+                                   FontAttributes="Bold" />
+
+                            <Label Grid.Row="2" Grid.Column="0"
+                                   Text="Отчество" FontSize="12"
+                                   TextColor="#9E9E9E" VerticalOptions="Center"
+                                   WidthRequest="100" />
+                            <Label Grid.Row="2" Grid.Column="1"
+                                   x:Name="MiddleNameView"
+                                   FontSize="15" TextColor="#212121"
+                                   FontAttributes="Bold" />
+
+                            <Label Grid.Row="3" Grid.Column="0"
+                                   Text="Дата рожд." FontSize="12"
+                                   TextColor="#9E9E9E" VerticalOptions="Center"
+                                   WidthRequest="100" />
+                            <Label Grid.Row="3" Grid.Column="1"
+                                   x:Name="BirthDateView"
+                                   FontSize="15" TextColor="#212121"
+                                   FontAttributes="Bold" />
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Личные данные — режим редактирования -->
+                <Border x:Name="EditModeLayout"
+                        BackgroundColor="White"
+                        StrokeThickness="1.5"
+                        Stroke="#1A237E"
+                        IsVisible="False"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="14" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Grid.Column="0"
+                                   Text="Редактирование"
+                                   FontSize="15" FontAttributes="Bold"
+                                   TextColor="#1A237E"
+                                   VerticalOptions="Center" />
+                            <Label Grid.Column="1" Text="✕"
+                                   FontSize="18" TextColor="#9E9E9E">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCancelEditTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="#F0F0F0" />
+
+                        <Label Text="Фамилия" FontSize="12" TextColor="#9E9E9E" />
+                        <Border BackgroundColor="#F8F9FA" StrokeThickness="0" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+                            <Entry x:Name="LastNameEntry" FontSize="15"
+                                   TextColor="#212121" BackgroundColor="Transparent" />
+                        </Border>
+
+                        <Label Text="Имя" FontSize="12" TextColor="#9E9E9E" />
+                        <Border BackgroundColor="#F8F9FA" StrokeThickness="0" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+                            <Entry x:Name="FirstNameEntry" FontSize="15"
+                                   TextColor="#212121" BackgroundColor="Transparent" />
+                        </Border>
+
+                        <Label Text="Отчество" FontSize="12" TextColor="#9E9E9E" />
+                        <Border BackgroundColor="#F8F9FA" StrokeThickness="0" Padding="12,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+                            <Entry x:Name="MiddleNameEntry"
+                                   Placeholder="Не указано"
+                                   FontSize="15"
+                                   TextColor="#212121" BackgroundColor="Transparent" />
+                        </Border>
+
+                        <Label Text="Дата рождения" FontSize="12" TextColor="#9E9E9E" />
+                        <Border BackgroundColor="#F8F9FA" StrokeThickness="0" Padding="12,6">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+                            <DatePicker x:Name="BirthDatePicker"
+                                        Format="dd.MM.yyyy"
+                                        MinimumDate="01/01/1900"
+                                        MaximumDate="{x:Static sys:DateTime.Today}"
+                                        FontSize="15" />
+                        </Border>
+
+                        <Label x:Name="PersonalInfoError"
+                               TextColor="Red" FontSize="13"
+                               IsVisible="False" />
+                        <Label x:Name="PersonalInfoSuccess"
+                               TextColor="#2E7D32" FontSize="13"
+                               IsVisible="False" />
+
+                        <Button x:Name="SavePersonalButton"
+                                Text="Сохранить"
+                                BackgroundColor="#1A237E"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="46"
+                                Clicked="OnSavePersonalClicked" />
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Смена пароля — сворачиваемая -->
+                <Border BackgroundColor="White" StrokeThickness="0" Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="14" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Grid.Column="0"
+                                   Text="🔒 Смена пароля"
+                                   FontSize="15" FontAttributes="Bold"
+                                   TextColor="#212121"
+                                   VerticalOptions="Center" />
+                            <Label x:Name="PasswordToggleLabel"
+                                   Grid.Column="1"
+                                   Text="Показать"
+                                   FontSize="12" TextColor="#1A237E">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnTogglePasswordSection" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+
+                        <VerticalStackLayout x:Name="PasswordSection"
+                                             IsVisible="False" Spacing="12">
+
+                            <BoxView HeightRequest="1" Color="#F0F0F0" />
+
+                            <Label Text="Текущий пароль" FontSize="12" TextColor="#9E9E9E" />
+                            <Border BackgroundColor="#F8F9FA" StrokeThickness="0" Padding="12,10">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="8" />
+                                </Border.StrokeShape>
+                                <Entry x:Name="CurrentPasswordEntry"
+                                       IsPassword="True"
+                                       Placeholder="Введите текущий пароль"
+                                       BackgroundColor="Transparent" />
+                            </Border>
+
+                            <Label Text="Новый пароль" FontSize="12" TextColor="#9E9E9E" />
+                            <Border BackgroundColor="#F8F9FA" StrokeThickness="0" Padding="12,10">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="8" />
+                                </Border.StrokeShape>
+                                <Entry x:Name="NewPasswordEntry"
+                                       IsPassword="True"
+                                       Placeholder="Минимум 6 символов"
+                                       BackgroundColor="Transparent" />
+                            </Border>
+
+                            <Label Text="Подтвердите пароль" FontSize="12" TextColor="#9E9E9E" />
+                            <Border BackgroundColor="#F8F9FA" StrokeThickness="0" Padding="12,10">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="8" />
+                                </Border.StrokeShape>
+                                <Entry x:Name="ConfirmPasswordEntry"
+                                       IsPassword="True"
+                                       Placeholder="Повторите новый пароль"
+                                       BackgroundColor="Transparent" />
+                            </Border>
+
+                            <Label x:Name="PasswordError"
+                                   TextColor="Red" FontSize="13"
+                                   IsVisible="False" />
+                            <Label x:Name="PasswordSuccess"
+                                   TextColor="#2E7D32" FontSize="13"
+                                   IsVisible="False" />
+
+                            <Button x:Name="ChangePasswordButton"
+                                    Text="Изменить пароль"
+                                    BackgroundColor="#E65100"
+                                    TextColor="White"
+                                    CornerRadius="10"
+                                    HeightRequest="46"
+                                    Clicked="OnChangePasswordClicked" />
+
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Разделы -->
+                <Border BackgroundColor="White" StrokeThickness="0" Padding="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="14" />
+                    </Border.StrokeShape>
                     <VerticalStackLayout>
 
-                        <!-- Документы -->
-                        <Grid Padding="16,14" ColumnDefinitions="Auto, *, Auto">
-                            <Label Grid.Column="0" Text="📄"
-                                   FontSize="20" VerticalOptions="Center" />
-                            <VerticalStackLayout Grid.Column="1"
-                                                 Margin="12,0,0,0">
+                        <Grid Padding="16,14" ColumnDefinitions="Auto,*,Auto">
+                            <Border Grid.Column="0"
+                                    BackgroundColor="#E8EAF6"
+                                    StrokeThickness="0"
+                                    WidthRequest="36" HeightRequest="36"
+                                    Padding="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="📄" FontSize="18"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Margin="12,0,0,0"
+                                                 VerticalOptions="Center">
                                 <Label Text="Мои документы"
-                                       FontSize="15" TextColor="#212121" />
+                                       FontSize="14" TextColor="#212121" />
                                 <Label Text="Паспорт, СНИЛС, ИНН, ОМС"
                                        FontSize="12" TextColor="#9E9E9E" />
                             </VerticalStackLayout>
                             <Label Grid.Column="2" Text="›"
-                                   FontSize="22" TextColor="#9E9E9E"
+                                   FontSize="22" TextColor="#BDBDBD"
                                    VerticalOptions="Center" />
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OnDocumentsTapped" />
                             </Grid.GestureRecognizers>
                         </Grid>
 
-                        <BoxView HeightRequest="1" Color="#F0F0F0" Margin="16,0" />
+                        <BoxView HeightRequest="1" Color="#F5F5F5" Margin="16,0" />
 
-                        <!-- Контакты -->
-                        <Grid Padding="16,14" ColumnDefinitions="Auto, *, Auto">
-                            <Label Grid.Column="0" Text="📞"
-                                   FontSize="20" VerticalOptions="Center" />
-                            <VerticalStackLayout Grid.Column="1"
-                                                 Margin="12,0,0,0">
+                        <Grid Padding="16,14" ColumnDefinitions="Auto,*,Auto">
+                            <Border Grid.Column="0"
+                                    BackgroundColor="#E8F5E9"
+                                    StrokeThickness="0"
+                                    WidthRequest="36" HeightRequest="36"
+                                    Padding="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="📞" FontSize="18"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Margin="12,0,0,0"
+                                                 VerticalOptions="Center">
                                 <Label Text="Контактная информация"
-                                       FontSize="15" TextColor="#212121" />
+                                       FontSize="14" TextColor="#212121" />
                                 <Label Text="Телефон, email, адрес"
                                        FontSize="12" TextColor="#9E9E9E" />
                             </VerticalStackLayout>
                             <Label Grid.Column="2" Text="›"
-                                   FontSize="22" TextColor="#9E9E9E"
+                                   FontSize="22" TextColor="#BDBDBD"
                                    VerticalOptions="Center" />
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OnContactInfoTapped" />
@@ -87,54 +444,30 @@
                         </Grid>
 
                     </VerticalStackLayout>
-                </Frame>
+                </Border>
 
-                <!-- Статистика -->
-                <Frame BackgroundColor="White" CornerRadius="10" Padding="16">
-                    <VerticalStackLayout Spacing="10">
-                        <Label Text="Моя активность"
-                               FontSize="14" FontAttributes="Bold"
-                               TextColor="#424242" />
-                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                            <Frame Grid.Column="0"
-                                   BackgroundColor="#E8EAF6"
-                                   CornerRadius="8" Padding="12,8">
-                                <VerticalStackLayout HorizontalOptions="Center">
-                                    <Label x:Name="AppealsCountLabel"
-                                           Text="0"
-                                           FontSize="22" FontAttributes="Bold"
-                                           TextColor="#1A237E"
-                                           HorizontalTextAlignment="Center" />
-                                    <Label Text="Обращений"
-                                           FontSize="12" TextColor="#757575"
-                                           HorizontalTextAlignment="Center" />
-                                </VerticalStackLayout>
-                            </Frame>
-                            <Frame Grid.Column="1"
-                                   BackgroundColor="#E8EAF6"
-                                   CornerRadius="8" Padding="12,8">
-                                <VerticalStackLayout HorizontalOptions="Center">
-                                    <Label x:Name="ApplicationsCountLabel"
-                                           Text="0"
-                                           FontSize="22" FontAttributes="Bold"
-                                           TextColor="#1A237E"
-                                           HorizontalTextAlignment="Center" />
-                                    <Label Text="Заявок"
-                                           FontSize="12" TextColor="#757575"
-                                           HorizontalTextAlignment="Center" />
-                                </VerticalStackLayout>
-                            </Frame>
-                        </Grid>
-                    </VerticalStackLayout>
-                </Frame>
+                <!-- Выйти -->
+                <Border BackgroundColor="#FFEBEE" StrokeThickness="0" Padding="16,14">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="14" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Label Grid.Column="0" Text="🚪" FontSize="20"
+                               VerticalOptions="Center" />
+                        <Label Grid.Column="1"
+                               Text="Выйти из аккаунта"
+                               FontSize="15" FontAttributes="Bold"
+                               TextColor="#B71C1C"
+                               VerticalOptions="Center"
+                               Margin="12,0,0,0">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnLogoutTapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                </Border>
 
-                <!-- Кнопка выйти -->
-                <Button Text="Выйти из аккаунта"
-                        BackgroundColor="#FFEBEE"
-                        TextColor="#B71C1C"
-                        CornerRadius="8"
-                        HeightRequest="50"
-                        Clicked="OnLogoutClicked" />
+                <BoxView HeightRequest="16" Color="Transparent" />
 
             </VerticalStackLayout>
         </VerticalStackLayout>

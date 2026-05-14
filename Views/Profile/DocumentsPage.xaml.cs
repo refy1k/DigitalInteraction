@@ -28,13 +28,14 @@ public partial class DocumentsPage : ContentPage
             _document = await _profileService
                 .GetDocumentsAsync(SessionManager.CurrentCitizenId!.Value);
 
-            if (_document is not null)
-            {
-                PassportEntry.Text = _document.PassportNumber ?? string.Empty;
-                SnilsEntry.Text = _document.SnilsNumber ?? string.Empty;
-                InnEntry.Text = _document.InnNumber ?? string.Empty;
-                OmsEntry.Text = _document.OmsPolicyNumber ?? string.Empty;
-            }
+            PassportNumberLabel.Text = string.IsNullOrEmpty(_document?.PassportNumber)
+                ? "Не указан" : _document.PassportNumber;
+            SnilsNumberLabel.Text = string.IsNullOrEmpty(_document?.SnilsNumber)
+                ? "Не указан" : _document.SnilsNumber;
+            InnNumberLabel.Text = string.IsNullOrEmpty(_document?.InnNumber)
+                ? "Не указан" : _document.InnNumber;
+            OmsNumberLabel.Text = string.IsNullOrEmpty(_document?.OmsPolicyNumber)
+                ? "Не указан" : _document.OmsPolicyNumber;
 
             ContentLayout.IsVisible = true;
         }
@@ -49,44 +50,31 @@ public partial class DocumentsPage : ContentPage
         }
     }
 
-    private async void OnSaveClicked(object sender, EventArgs e)
+    // Тап по карточке — показываем номер крупно
+    private async void OnPassportTapped(object sender, TappedEventArgs e) =>
+        await ShowDocumentAsync("Паспорт РФ", _document?.PassportNumber);
+
+    private async void OnSnilsTapped(object sender, TappedEventArgs e) =>
+        await ShowDocumentAsync("СНИЛС", _document?.SnilsNumber);
+
+    private async void OnInnTapped(object sender, TappedEventArgs e) =>
+        await ShowDocumentAsync("ИНН", _document?.InnNumber);
+
+    private async void OnOmsTapped(object sender, TappedEventArgs e) =>
+        await ShowDocumentAsync("Полис ОМС", _document?.OmsPolicyNumber);
+
+    private async Task ShowDocumentAsync(string title, string? number)
     {
-        try
+        if (string.IsNullOrEmpty(number) || number == "Не указан")
         {
-            SetSaving(true);
-            ErrorLabel.IsVisible = false;
-            SuccessLabel.IsVisible = false;
-
-            var doc = new CitizenDocument
-            {
-                Id = _document?.Id ?? 0,
-                CitizenId = SessionManager.CurrentCitizenId!.Value,
-                PassportNumber = PassportEntry.Text?.Trim(),
-                SnilsNumber = SnilsEntry.Text?.Trim(),
-                InnNumber = InnEntry.Text?.Trim(),
-                OmsPolicyNumber = OmsEntry.Text?.Trim()
-            };
-
-            await _profileService.SaveDocumentsAsync(doc);
-
-            SuccessLabel.Text = "✅ Документы сохранены";
-            SuccessLabel.IsVisible = true;
+            await DisplayAlert(title, "Номер не указан.\nНажмите «Редактировать» чтобы добавить.", "OK");
+            return;
         }
-        catch (Exception ex)
-        {
-            ErrorLabel.Text = $"Ошибка: {ex.Message}";
-            ErrorLabel.IsVisible = true;
-        }
-        finally
-        {
-            SetSaving(false);
-        }
+        await DisplayAlert(title, number, "OK");
     }
 
-    private void SetSaving(bool isSaving)
+    private async void OnEditClicked(object sender, EventArgs e)
     {
-        SavingIndicator.IsVisible = isSaving;
-        SavingIndicator.IsRunning = isSaving;
-        SaveButton.IsEnabled = !isSaving;
+        await Navigation.PushAsync(new DocumentsEditPage(_profileService, _document));
     }
 }
