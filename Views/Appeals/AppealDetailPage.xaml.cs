@@ -8,6 +8,7 @@ namespace DigitalInteraction.Views.Appeals;
 public partial class AppealDetailPage : ContentPage
 {
     private readonly AppealService _appealService;
+    private readonly AttachmentService _attachmentService;
     private int _appealId;
 
     public int AppealId
@@ -20,10 +21,11 @@ public partial class AppealDetailPage : ContentPage
         }
     }
 
-    public AppealDetailPage(AppealService appealService)
+    public AppealDetailPage(AppealService appealService, AttachmentService attachmentService)
     {
         InitializeComponent();
         _appealService = appealService;
+        _attachmentService = attachmentService;
     }
 
     private async Task LoadAppealAsync(int id)
@@ -72,6 +74,8 @@ public partial class AppealDetailPage : ContentPage
             LoadingIndicator.IsVisible = false;
             LoadingIndicator.IsRunning = false;
         }
+
+        await LoadAttachmentsAsync(id);
     }
 
     private async void OnDeleteClicked(object sender, EventArgs e)
@@ -111,4 +115,77 @@ public partial class AppealDetailPage : ContentPage
         4 => Color.FromArgb("#B71C1C"),
         _ => Color.FromArgb("#757575")
     };
+
+    private async Task LoadAttachmentsAsync(int appealId)
+    {
+        try
+        {
+            var attachments = await _attachmentService.GetByAppealAsync(appealId);
+            if (attachments.Count == 0) return;
+
+            AttachmentsDetailLayout.Children.Clear();
+
+            foreach (var att in attachments)
+            {
+                var grid = new Grid
+                {
+                    ColumnDefinitions =
+                {
+                    new ColumnDefinition { Width = GridLength.Auto },
+                    new ColumnDefinition { Width = GridLength.Star },
+                    new ColumnDefinition { Width = GridLength.Auto }
+                },
+                    ColumnSpacing = 10
+                };
+
+                grid.Add(new Label { Text = att.FileIcon, FontSize = 22, VerticalOptions = LayoutOptions.Center }, 0, 0);
+                grid.Add(new VerticalStackLayout
+                {
+                    Children =
+                {
+                    new Label { Text = att.FileName,     FontSize = 13, TextColor = Color.FromArgb("#212121"), LineBreakMode = LineBreakMode.TailTruncation },
+                    new Label { Text = att.FileSizeText, FontSize = 11, TextColor = Color.FromArgb("#9E9E9E") }
+                }
+                }, 1, 0);
+
+                var filePath = att.FilePath;
+                var fileName = att.FileName;
+                var downloadBtn = new Label
+                {
+                    Text = "⬇️",
+                    FontSize = 20,
+                    VerticalOptions = LayoutOptions.Center
+                };
+                downloadBtn.GestureRecognizers.Add(new TapGestureRecognizer
+                {
+                    Command = new Command(async () =>
+                        await DownloadAndOpenFileAsync(filePath, fileName))
+                });
+                grid.Add(downloadBtn, 2, 0);
+
+                AttachmentsDetailLayout.Children.Add(grid);
+            }
+
+            AttachmentsFrame.IsVisible = true;
+        }
+        catch { /* тихо игнорируем */ }
+    }
+
+    private async Task DownloadAndOpenFileAsync(string filePath, string fileName)
+    {
+        try
+        {
+            var bytes = await _attachmentService.DownloadAsync(filePath);
+            var tempPath = Path.Combine(FileSystem.CacheDirectory, fileName);
+            await File.WriteAllBytesAsync(tempPath, bytes);
+            await Launcher.OpenAsync(new OpenFileRequest
+            {
+                File = new ReadOnlyFile(tempPath)
+            });
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ошибка", $"Не удалось открыть файл: {ex.Message}", "OK");
+        }
+    }
 }

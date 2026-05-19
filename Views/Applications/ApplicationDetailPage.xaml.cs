@@ -6,6 +6,7 @@ namespace DigitalInteraction.Views.Applications;
 public partial class ApplicationDetailPage : ContentPage
 {
     private readonly ApplicationService _applicationService;
+    private readonly AttachmentService _attachmentService;
     private int _applicationId;
 
     public int ApplicationId
@@ -18,10 +19,13 @@ public partial class ApplicationDetailPage : ContentPage
         }
     }
 
-    public ApplicationDetailPage(ApplicationService applicationService)
+    public ApplicationDetailPage(
+        ApplicationService applicationService,
+        AttachmentService attachmentService)
     {
         InitializeComponent();
         _applicationService = applicationService;
+        _attachmentService = attachmentService;
     }
 
     private async Task LoadApplicationAsync(int id)
@@ -40,7 +44,6 @@ public partial class ApplicationDetailPage : ContentPage
             TitleLabel.Text = app.Title;
             DateLabel.Text = $"Подана: {app.CreationDate:dd.MM.yyyy HH:mm}";
             TextLabel.Text = app.DocumentText;
-
             StatusLabel.Text = GetStatusText(app.ApplicationStatusId);
             StatusFrame.BackgroundColor = GetStatusColor(app.ApplicationStatusId);
 
@@ -64,6 +67,100 @@ public partial class ApplicationDetailPage : ContentPage
         {
             LoadingIndicator.IsVisible = false;
             LoadingIndicator.IsRunning = false;
+        }
+
+        await LoadAttachmentsAsync(id);
+    }
+
+    private async Task LoadAttachmentsAsync(int applicationId)
+    {
+        try
+        {
+            var attachments = await _attachmentService
+                .GetByApplicationAsync(applicationId);
+
+            if (attachments.Count == 0) return;
+
+            AttachmentsDetailLayout.Children.Clear();
+
+            foreach (var att in attachments)
+            {
+                var grid = new Grid
+                {
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = GridLength.Auto },
+                        new ColumnDefinition { Width = GridLength.Star },
+                        new ColumnDefinition { Width = GridLength.Auto }
+                    },
+                    ColumnSpacing = 10
+                };
+
+                grid.Add(new Label
+                {
+                    Text = att.FileIcon,
+                    FontSize = 22,
+                    VerticalOptions = LayoutOptions.Center
+                }, 0, 0);
+
+                grid.Add(new VerticalStackLayout
+                {
+                    Children =
+                    {
+                        new Label
+                        {
+                            Text          = att.FileName,
+                            FontSize      = 13,
+                            TextColor     = Color.FromArgb("#212121"),
+                            LineBreakMode = LineBreakMode.TailTruncation
+                        },
+                        new Label
+                        {
+                            Text      = att.FileSizeText,
+                            FontSize  = 11,
+                            TextColor = Color.FromArgb("#9E9E9E")
+                        }
+                    }
+                }, 1, 0);
+
+                var filePath = att.FilePath;
+                var fileName = att.FileName;
+                var downloadBtn = new Label
+                {
+                    Text = "⬇️",
+                    FontSize = 20,
+                    VerticalOptions = LayoutOptions.Center
+                };
+                downloadBtn.GestureRecognizers.Add(new TapGestureRecognizer
+                {
+                    Command = new Command(async () =>
+                        await DownloadAndOpenFileAsync(filePath, fileName))
+                });
+                grid.Add(downloadBtn, 2, 0);
+
+                AttachmentsDetailLayout.Children.Add(grid);
+            }
+
+            AttachmentsFrame.IsVisible = true;
+        }
+        catch { /* тихо игнорируем */ }
+    }
+
+    private async Task DownloadAndOpenFileAsync(string filePath, string fileName)
+    {
+        try
+        {
+            var bytes = await _attachmentService.DownloadAsync(filePath);
+            var tempPath = Path.Combine(FileSystem.CacheDirectory, fileName);
+            await File.WriteAllBytesAsync(tempPath, bytes);
+            await Launcher.OpenAsync(new OpenFileRequest
+            {
+                File = new ReadOnlyFile(tempPath)
+            });
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ошибка", $"Не удалось открыть файл: {ex.Message}", "OK");
         }
     }
 

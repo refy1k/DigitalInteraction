@@ -11,6 +11,8 @@ public partial class LoginPage : ContentPage
         InitializeComponent();
         _authService = authService;
     }
+    private async void OnForgotPasswordTapped(object sender, TappedEventArgs e) =>
+    await Shell.Current.GoToAsync(nameof(ForgotPasswordPage));
 
     private async void OnLoginClicked(object sender, EventArgs e)
     {

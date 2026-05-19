@@ -52,6 +52,19 @@
                     </VerticalStackLayout>
                 </Frame>
 
+                <!-- Вложения -->
+                <Frame x:Name="AttachmentsFrame"
+                       BackgroundColor="White" CornerRadius="10"
+                       Padding="16" IsVisible="False">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="📎 Прикреплённые файлы"
+                           FontSize="13" FontAttributes="Bold"
+                           TextColor="#424242" />
+                        <BoxView HeightRequest="1" Color="#E0E0E0" />
+                        <VerticalStackLayout x:Name="AttachmentsDetailLayout" Spacing="8" />
+                    </VerticalStackLayout>
+                </Frame>
+
                 <Frame x:Name="ResponseFrame"
                        BackgroundColor="#E8F5E9"
                        CornerRadius="10" Padding="16"

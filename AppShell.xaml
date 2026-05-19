@@ -17,6 +17,8 @@
                       ContentTemplate="{DataTemplate auth:LoginPage}" />
         <ShellContent Route="register"
                       ContentTemplate="{DataTemplate auth:RegisterPage}" />
+        <ShellContent Route="forgot"
+              ContentTemplate="{DataTemplate auth:ForgotPasswordPage}" />
     </FlyoutItem>
 
     <!-- Основные разделы -->

@@ -36,6 +36,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<ProfileService>();
         builder.Services.AddSingleton<NotificationService>();
         builder.Services.AddSingleton<MunicipalServiceService>();
+        builder.Services.AddSingleton<VerificationService>();
+        builder.Services.AddSingleton<EmailService>();
+        builder.Services.AddSingleton<AttachmentService>();
 
         // Pages (transient)
         builder.Services.AddTransient<HomePage>();
@@ -55,6 +58,8 @@ public static class MauiProgram
         builder.Services.AddTransient<MunicipalServicesPage>();
         builder.Services.AddTransient<MunicipalServiceDetailPage>();
         builder.Services.AddTransient<ServiceRequestsPage>();
+        builder.Services.AddTransient<AppealDetailPage>();
+        builder.Services.AddTransient<ApplicationDetailPage>();
 
         return builder.Build();
     }

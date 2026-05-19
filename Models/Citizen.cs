@@ -29,4 +29,7 @@ public class Citizen : BaseModel
 
     [Column("date_of_birth")]
     public DateTime? DateOfBirth { get; set; }
+
+    [Column("is_email_verified")]
+    public bool IsEmailVerified { get; set; }
 }

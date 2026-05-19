@@ -45,6 +45,13 @@ public partial class ProfilePage : ContentPage
                 return;
             }
 
+            EmailStatusLabel.Text = citizen.IsEmailVerified
+            ? "✅ Подтверждён"
+            : "Не подтверждён — нажмите для привязки";
+
+
+
+
             // Шапка
             FullNameLabel.Text = $"{citizen.LastName} {citizen.FirstName} {citizen.MiddleName}".Trim();
             LoginLabel.Text = $"@{citizen.Login}";
@@ -342,6 +349,8 @@ public partial class ProfilePage : ContentPage
     // ── Навигация ─────────────────────────────────────────────
     private async void OnDocumentsTapped(object sender, TappedEventArgs e) =>
         await Shell.Current.GoToAsync(nameof(DocumentsPage));
+    private async void OnEmailVerificationTapped(object sender, TappedEventArgs e) =>
+    await Shell.Current.GoToAsync(nameof(EmailVerificationPage));
 
     private async void OnContactInfoTapped(object sender, TappedEventArgs e) =>
         await Shell.Current.GoToAsync(nameof(ContactInfoPage));

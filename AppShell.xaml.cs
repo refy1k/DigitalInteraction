@@ -2,6 +2,8 @@
 using DigitalInteraction.Views.Applications;
 using DigitalInteraction.Views.Profile;
 using DigitalInteraction.Views.Services;
+using DigitalInteraction.Views.Auth;
+using DigitalInteraction.Views.Profile;
 
 namespace DigitalInteraction;
 
@@ -21,5 +23,8 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(MunicipalServiceDetailPage), typeof(MunicipalServiceDetailPage));
         Routing.RegisterRoute(nameof(ServiceRequestsPage), typeof(ServiceRequestsPage));
         Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
+        Routing.RegisterRoute(nameof(ForgotPasswordPage), typeof(ForgotPasswordPage));
+        Routing.RegisterRoute(nameof(EmailVerificationPage), typeof(EmailVerificationPage));
+
     }
 }

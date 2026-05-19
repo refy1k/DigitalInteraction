@@ -77,6 +77,16 @@
                 </Label>
             </HorizontalStackLayout>
 
+            <Label Text="Забыли пароль?"
+               FontSize="13" TextColor="#1A237E"
+               TextDecorations="Underline"
+               HorizontalTextAlignment="Center"
+               Margin="0,4,0,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnForgotPasswordTapped" />
+                </Label.GestureRecognizers>
+            </Label>
+
         </VerticalStackLayout>
     </ScrollView>
 

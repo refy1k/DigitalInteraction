@@ -22,6 +22,33 @@
                     AutoSize="Disabled"
                     BackgroundColor="White" />
 
+            <!-- Вложения -->
+            <Label Text="Прикреплённые файлы"
+       FontSize="13" TextColor="#424242" />
+
+            <Border BackgroundColor="White" StrokeThickness="0" Padding="12">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+
+                    <VerticalStackLayout x:Name="AttachmentsLayout" Spacing="6" />
+
+                    <Label x:Name="NoAttachmentsLabel"
+               Text="Файлы не прикреплены"
+               FontSize="12" TextColor="#9E9E9E"
+               HorizontalTextAlignment="Center" />
+
+                    <Button Text="📎 Прикрепить файл"
+                BackgroundColor="#E8EAF6"
+                TextColor="#1A237E"
+                CornerRadius="8"
+                HeightRequest="42"
+                Clicked="OnAttachFileClicked" />
+
+                </VerticalStackLayout>
+            </Border>
+
             <Label x:Name="ErrorLabel"
                    TextColor="Red" FontSize="13"
                    IsVisible="False" />
