@@ -15,10 +15,10 @@
     <FlyoutItem FlyoutItemIsVisible="False" Route="auth">
         <ShellContent Route="login"
                       ContentTemplate="{DataTemplate auth:LoginPage}" />
-        <ShellContent Route="register"
+        <!--<ShellContent Route="register"
                       ContentTemplate="{DataTemplate auth:RegisterPage}" />
         <ShellContent Route="forgot"
-              ContentTemplate="{DataTemplate auth:ForgotPasswordPage}" />
+              ContentTemplate="{DataTemplate auth:ForgotPasswordPage}" />-->
     </FlyoutItem>
 
     <!-- Основные разделы -->
@@ -27,8 +27,8 @@
             <ShellContent Route="home"
                           ContentTemplate="{DataTemplate home:HomePage}" />
         </Tab>
-        <Tab Title="✉️">
-            <ShellContent Route="appeals"
+        <!--<Tab Title="✉️">
+            <ShellContent Route="appeals"Wga2DFbrEb
                           ContentTemplate="{DataTemplate appeals:AppealsListPage}" />
         </Tab>
         <Tab Title="📋">
@@ -38,7 +38,7 @@
         <Tab Title="🏛️">
             <ShellContent Route="services"
                           ContentTemplate="{DataTemplate services:ServiceRequestsPage}" />
-        </Tab>
+        </Tab>-->
         <Tab Title="🔔">
             <ShellContent Route="notifications"
                           ContentTemplate="{DataTemplate notifications:NotificationsPage}" />

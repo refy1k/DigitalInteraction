@@ -246,7 +246,7 @@
                         <Label Grid.Row="0" Grid.Column="0"
                                Text="📍" FontSize="16" VerticalOptions="Center" />
                         <Label Grid.Row="0" Grid.Column="1"
-                               Text="Пермский край, г. Берёзовский, ул. Ленина, 1"
+                               Text="Пермский край, с. Берёзовка, ул. Ленина, 33"
                                FontSize="13" TextColor="#424242" />
 
                         <Label Grid.Row="1" Grid.Column="0"
