@@ -29,22 +29,26 @@ public class Attachment : BaseModel
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
+}
 
-    // Вычисляемые свойства
-    public string FileSizeText => FileSize switch
+// Вспомогательный класс для отображения — не связан с БД
+public static class AttachmentHelper
+{
+    public static string GetSizeText(int fileSize) => fileSize switch
     {
-        < 1024 => $"{FileSize} Б",
-        < 1024 * 1024 => $"{FileSize / 1024} КБ",
-        _ => $"{FileSize / (1024 * 1024)} МБ"
+        < 1024 => $"{fileSize} Б",
+        < 1024 * 1024 => $"{fileSize / 1024} КБ",
+        _ => $"{fileSize / (1024 * 1024)} МБ"
     };
 
-    public string FileIcon => Path.GetExtension(FileName).ToLower() switch
-    {
-        ".doc" or ".docx" => "📄",
-        ".pdf" => "📕",
-        ".xls" or ".xlsx" => "📊",
-        ".jpg" or ".jpeg" or ".png" => "🖼️",
-        ".txt" => "📝",
-        _ => "📎"
-    };
+    public static string GetIcon(string fileName) =>
+        Path.GetExtension(fileName).ToLower() switch
+        {
+            ".doc" or ".docx" => "📄",
+            ".pdf" => "📕",
+            ".xls" or ".xlsx" => "📊",
+            ".jpg" or ".jpeg" or ".png" => "🖼️",
+            ".txt" => "📝",
+            _ => "📎"
+        };
 }

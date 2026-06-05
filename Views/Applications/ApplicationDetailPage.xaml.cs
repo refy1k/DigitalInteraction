@@ -1,3 +1,4 @@
+using DigitalInteraction.Models;
 using DigitalInteraction.Services;
 
 namespace DigitalInteraction.Views.Applications;
@@ -78,7 +79,6 @@ public partial class ApplicationDetailPage : ContentPage
         {
             var attachments = await _attachmentService
                 .GetByApplicationAsync(applicationId);
-
             if (attachments.Count == 0) return;
 
             AttachmentsDetailLayout.Children.Clear();
@@ -98,7 +98,7 @@ public partial class ApplicationDetailPage : ContentPage
 
                 grid.Add(new Label
                 {
-                    Text = att.FileIcon,
+                    Text = AttachmentHelper.GetIcon(att.FileName),
                     FontSize = 22,
                     VerticalOptions = LayoutOptions.Center
                 }, 0, 0);
@@ -116,7 +116,7 @@ public partial class ApplicationDetailPage : ContentPage
                         },
                         new Label
                         {
-                            Text      = att.FileSizeText,
+                            Text      = AttachmentHelper.GetSizeText(att.FileSize),
                             FontSize  = 11,
                             TextColor = Color.FromArgb("#9E9E9E")
                         }
@@ -143,7 +143,7 @@ public partial class ApplicationDetailPage : ContentPage
 
             AttachmentsFrame.IsVisible = true;
         }
-        catch { /* тихо игнорируем */ }
+        catch { }
     }
 
     private async Task DownloadAndOpenFileAsync(string filePath, string fileName)
@@ -167,10 +167,8 @@ public partial class ApplicationDetailPage : ContentPage
     private async void OnDeleteClicked(object sender, EventArgs e)
     {
         var confirm = await DisplayAlert(
-            "Удаление",
-            "Вы уверены что хотите удалить эту заявку?",
+            "Удаление", "Вы уверены что хотите удалить эту заявку?",
             "Удалить", "Отмена");
-
         if (!confirm) return;
 
         try

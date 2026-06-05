@@ -10,7 +10,6 @@ public class AuthService(Client client)
     {
         var result = await client
             .From<Citizen>()
-            .Select("id, last_name, first_name, middle_name, login, password_hash, created_at")
             .Where(c => c.Login == login)
             .Single();
 
