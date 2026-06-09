@@ -252,7 +252,7 @@
                         <Label Grid.Row="1" Grid.Column="0"
                                Text="📞" FontSize="16" VerticalOptions="Center" />
                         <Label Grid.Row="1" Grid.Column="1"
-                               Text="+7 (342) 000-00-00"
+                               Text="+7 (342) 513-12-33"
                                FontSize="13" TextColor="#1A237E"
                                TextDecorations="Underline">
                             <Label.GestureRecognizers>
@@ -263,7 +263,7 @@
                         <Label Grid.Row="2" Grid.Column="0"
                                Text="✉️" FontSize="16" VerticalOptions="Center" />
                         <Label Grid.Row="2" Grid.Column="1"
-                               Text="admin@berezovsky.ru"
+                               Text="berra_07@mail.ru"
                                FontSize="13" TextColor="#1A237E"
                                TextDecorations="Underline">
                             <Label.GestureRecognizers>
@@ -274,7 +274,7 @@
                         <Label Grid.Row="3" Grid.Column="0"
                                Text="🕐" FontSize="16" VerticalOptions="Center" />
                         <Label Grid.Row="3" Grid.Column="1"
-                               Text="Пн–Пт: 9:00–18:00, обед 13:00–14:00"
+                               Text="Пн–Пт: 8:30–17:30, обед 12:30–14:00"
                                FontSize="13" TextColor="#424242" />
                     </Grid>
                 </Border>
